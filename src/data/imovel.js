@@ -122,7 +122,7 @@ export const imovel = {
   // ---- CORRETOR / PROPRIETÁRIO ----
   corretor: {
     nome: 'Rômulo Carvalho',
-    rotulo: 'Proprietário do imóvel',
+    rotulo: 'Corretor do imóvel',
     registro: 'CRECI-PB 10429',
     foto: fotoCorretor,
   },
