@@ -1,0 +1,3 @@
+# Permite que todos os buscadores indexem o site
+User-agent: *
+Allow: /
