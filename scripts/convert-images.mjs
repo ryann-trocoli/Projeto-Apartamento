@@ -26,8 +26,11 @@ for (const arquivo of arquivos) {
   const entrada = path.join(ORIGEM, arquivo)
   const saida = path.join(DESTINO, `${nome}.webp`)
 
+  // A foto do corretor vira um avatar pequeno — não precisa de alta resolução
+  const largura = nome === 'corretor' ? 320 : 1600
+
   await sharp(entrada)
-    .resize({ width: 1600, withoutEnlargement: true }) // nunca amplia além do original
+    .resize({ width: largura, withoutEnlargement: true }) // nunca amplia além do original
     .webp({ quality: 82 })
     .toFile(saida)
 

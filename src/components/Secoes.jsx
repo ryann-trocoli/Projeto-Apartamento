@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { imovel } from '../data/imovel.js'
 import BotaoWhatsApp from './BotaoWhatsApp.jsx'
 import Mapa from './Mapa.jsx'
@@ -5,12 +6,27 @@ import {
   IconAgua,
   IconAndar,
   IconArea,
+  IconArmario,
   IconCama,
   IconCarro,
+  IconCenario,
   IconCheck,
+  IconChevron,
+  IconChurrasqueira,
   IconChuveiro,
+  IconCortina,
+  IconEconomia,
+  IconGourmet,
+  IconLavanderia,
+  IconPanela,
   IconPin,
+  IconPiscina,
+  IconPraticidade,
   IconPredio,
+  IconPrivacidade,
+  IconSeguranca,
+  IconSofa,
+  IconSol,
   IconSuite,
   IconWhatsApp,
 } from './icons.jsx'
@@ -31,7 +47,7 @@ const ICONES_FICHA = {
 function TituloSecao({ children }) {
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-[1.7rem]">
+      <h2 className="text-2xl font-bold tracking-tight text-balance text-stone-900 sm:text-[1.7rem]">
         {children}
       </h2>
       <span className="mt-2 block h-1 w-12 rounded-full bg-brand-600" aria-hidden="true" />
@@ -66,37 +82,11 @@ export function BarraSuperior() {
 }
 
 /* ============================================================
-   3. PROPRIETÁRIO — foto redonda + nome + rótulo
-   ============================================================ */
-export function Corretor() {
-  const { corretor } = imovel
-  return (
-    <div className="flex items-center gap-4">
-      <span className="relative inline-block">
-        <img
-          src={corretor.foto}
-          alt={`Foto de ${corretor.nome}`}
-          className="h-16 w-16 rounded-full object-cover shadow-md ring-2 ring-white sm:h-20 sm:w-20"
-        />
-        <span
-          className="absolute right-0.5 bottom-0.5 block h-4 w-4 rounded-full border-2 border-white bg-whats-500"
-          title="Disponível no WhatsApp"
-        />
-      </span>
-      <div>
-        <p className="text-lg leading-tight font-bold text-stone-900">{corretor.nome}</p>
-        <p className="text-sm font-medium text-brand-700">{corretor.rotulo}</p>
-        <p className="text-xs text-stone-500">{corretor.registro}</p>
-      </div>
-    </div>
-  )
-}
-
-/* ============================================================
-   CARTÃO DE PREÇO — fica ao lado do conteúdo no desktop
+   CARTÃO DE PREÇO + CORRETOR — fica ao lado do conteúdo no desktop
    (fixo ao rolar) e logo no início da página no mobile.
    ============================================================ */
 export function CartaoPreco({ origem = 'cartao-preco' }) {
+  const { corretor } = imovel
   return (
     <section
       aria-label="Preço e contato"
@@ -107,9 +97,30 @@ export function CartaoPreco({ origem = 'cartao-preco' }) {
       <div className="h-1.5 bg-gradient-to-r from-brand-700 via-brand-600 to-brand-300" />
 
       <div className="p-6">
+        {/* Corretor — acompanha o preço ao rolar a página */}
+        <div className="mb-5 flex items-center gap-3 border-b border-stone-100 pb-5">
+          <span className="relative inline-block shrink-0">
+            <img
+              src={corretor.foto}
+              alt={`Foto de ${corretor.nome}`}
+              className="h-13 w-13 rounded-full object-cover shadow ring-2 ring-white"
+            />
+            <span
+              className="absolute right-0 bottom-0 block h-3.5 w-3.5 rounded-full border-2 border-white bg-whats-500"
+              title="Disponível no WhatsApp"
+            />
+          </span>
+          <div className="min-w-0">
+            <p className="truncate leading-tight font-bold text-stone-900">
+              {corretor.nome}
+            </p>
+            <p className="text-xs text-stone-500">{corretor.registro}</p>
+          </div>
+        </div>
+
         <div className="text-center">
           <p className="text-sm font-medium tracking-wide text-stone-500">À venda por</p>
-          <p className="font-display mt-1 text-[2.6rem] leading-none font-extrabold tracking-tighter text-stone-900">
+          <p className="font-display mt-1 text-[2.6rem] leading-none font-bold tracking-tight text-stone-900">
             {imovel.preco}
           </p>
         </div>
@@ -134,8 +145,8 @@ export function CartaoPreco({ origem = 'cartao-preco' }) {
             <IconWhatsApp className="h-4 w-4" aria-hidden="true" />
           </span>
           <p className="text-sm leading-snug text-brand-900">
-            Negociação <strong>direta com o proprietário</strong>, sem
-            intermediários — tire suas dúvidas em minutos.
+            Atendimento <strong>direto com o corretor do imóvel</strong> —
+            tire suas dúvidas em minutos.
           </p>
         </div>
       </div>
@@ -160,7 +171,7 @@ export function TituloEndereco() {
           </span>
         ))}
       </div>
-      <h1 className="text-[1.7rem] leading-[1.18] font-extrabold tracking-tight text-stone-900 sm:text-4xl lg:text-[2.5rem]">
+      <h1 className="text-[1.7rem] leading-[1.25] font-bold tracking-tight text-balance text-stone-900 sm:text-4xl lg:text-[2.4rem]">
         {imovel.titulo}
       </h1>
       <p className="mt-4 flex items-start gap-2 text-stone-600">
@@ -176,21 +187,25 @@ export function TituloEndereco() {
    ============================================================ */
 export function FichaTecnica() {
   return (
-    <section aria-label="Ficha técnica do imóvel">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <section
+      aria-label="Ficha técnica do imóvel"
+      className="border-y border-stone-200 py-7"
+    >
+      <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4">
         {imovel.fichaTecnica.map((item) => {
           const Icone = ICONES_FICHA[item.icone] ?? IconCheck
           return (
             <div
-              key={item.rotulo}
-              className="group flex flex-col items-center gap-2 rounded-2xl border border-stone-200/80 bg-white p-5 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-900/10"
+              key={item.texto}
+              className="flex flex-col items-center gap-3 text-center"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 transition group-hover:bg-brand-600 group-hover:text-white">
-                <Icone className="h-6 w-6" aria-hidden="true" />
-              </span>
-              <span className="text-xl font-bold text-stone-900">{item.valor}</span>
-              <span className="text-xs font-medium tracking-wide text-stone-500">
-                {item.rotulo}
+              <Icone
+                className="h-8 w-8 text-stone-600"
+                strokeWidth="1.4"
+                aria-hidden="true"
+              />
+              <span className="text-[0.95rem] font-medium text-brand-700">
+                {item.texto}
               </span>
             </div>
           )
@@ -204,15 +219,13 @@ export function FichaTecnica() {
    6. DESCRIÇÃO COMPLETA — primeiro parágrafo em destaque
    ============================================================ */
 export function Descricao() {
-  const [primeiro, ...resto] = imovel.descricao
   return (
     <section aria-label="Descrição do imóvel">
       <TituloSecao>Sobre o imóvel</TituloSecao>
-      <p className="text-lg leading-relaxed font-medium text-stone-800 sm:text-xl">
-        {primeiro}
-      </p>
-      <div className="mt-5 space-y-4 leading-relaxed text-stone-600">
-        {resto.map((paragrafo, i) => (
+      {/* Tom uniforme em todos os parágrafos; text-justify + hyphens-auto
+          deixam as margens esquerda e direita alinhadas */}
+      <div className="space-y-4 hyphens-auto text-justify leading-relaxed text-stone-600">
+        {imovel.descricao.map((paragrafo, i) => (
           <p key={i}>{paragrafo}</p>
         ))}
       </div>
@@ -221,24 +234,91 @@ export function Descricao() {
 }
 
 /* ============================================================
-   7 e 8. LISTAS DE CARACTERÍSTICAS (imóvel e condomínio)
+   POR QUE ESTE IMÓVEL É DIFERENCIADO — argumentos de venda
+   com ícone, título em destaque e texto alinhado (recuo
+   consistente em qualquer tamanho de tela)
    ============================================================ */
+const ICONES_DIFERENCIAIS = {
+  privacidade: IconPrivacidade,
+  economia: IconEconomia,
+  praticidade: IconPraticidade,
+  seguranca: IconSeguranca,
+  cenario: IconCenario,
+}
+
+export function Diferenciais() {
+  return (
+    <section aria-label="Por que este imóvel é diferenciado">
+      <TituloSecao>Por que este imóvel é diferenciado?</TituloSecao>
+      <div className="divide-y divide-stone-100 rounded-2xl border border-stone-200/80 bg-white shadow-sm">
+        {imovel.diferenciais.map((d) => {
+          const Icone = ICONES_DIFERENCIAIS[d.icone] ?? IconCheck
+          return (
+            <div
+              key={d.titulo}
+              className="group flex items-start gap-4 p-5 transition hover:bg-brand-50/50 sm:gap-5 sm:p-6"
+            >
+              <span className="mt-0.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 transition group-hover:bg-brand-600 group-hover:text-white sm:h-12 sm:w-12">
+                <Icone className="h-6 w-6" aria-hidden="true" />
+              </span>
+              {/* O texto fica todo alinhado à direita do ícone (recuo suspenso) */}
+              <div className="min-w-0">
+                <h3 className="font-display font-bold tracking-tight text-stone-900 sm:text-lg">
+                  {d.titulo}
+                </h3>
+                <p className="mt-1 hyphens-auto text-justify text-[0.95rem] leading-relaxed text-stone-600">
+                  {d.texto}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+/* ============================================================
+   7 e 8. LISTAS DE CARACTERÍSTICAS (imóvel e condomínio)
+   Layout limpo em 2 colunas, com um ícone específico para cada
+   item (definido pelo campo "icone" em src/data/imovel.js).
+   ============================================================ */
+const ICONES_CARACTERISTICAS = {
+  suite: IconSuite,
+  cozinha: IconPanela,
+  sala: IconSofa,
+  varanda: IconCortina,
+  moveis: IconArmario,
+  lavanderia: IconLavanderia,
+  vista: IconCenario,
+  sol: IconSol,
+  piscina: IconPiscina,
+  gourmet: IconGourmet,
+  churrasqueira: IconChurrasqueira,
+  banheiro: IconChuveiro,
+  agua: IconAgua,
+}
+
 export function ListaCaracteristicas({ titulo, itens }) {
   return (
     <section aria-label={titulo}>
       <TituloSecao>{titulo}</TituloSecao>
-      <div className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm sm:p-7">
-        <ul className="grid grid-cols-1 gap-x-6 gap-y-3.5 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-          {itens.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-[0.95rem] text-stone-700">
-              <span className="mt-0.5 flex h-5.5 w-5.5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                <IconCheck className="h-3.5 w-3.5" strokeWidth="2.4" aria-hidden="true" />
+      <ul className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+        {itens.map((item) => {
+          const Icone = ICONES_CARACTERISTICAS[item.icone] ?? IconCheck
+          return (
+            <li key={item.rotulo} className="flex items-center gap-3.5">
+              <Icone
+                className="h-6 w-6 shrink-0 text-brand-700"
+                aria-hidden="true"
+              />
+              <span className="text-[0.95rem] font-medium text-stone-800">
+                {item.rotulo}
               </span>
-              {item}
             </li>
-          ))}
-        </ul>
-      </div>
+          )
+        })}
+      </ul>
     </section>
   )
 }
@@ -246,28 +326,61 @@ export function ListaCaracteristicas({ titulo, itens }) {
 /* ============================================================
    9. O QUE TEM PERTO — pontos próximos com distância/tempo
    ============================================================ */
+const PONTOS_VISIVEIS = 3 // quantos aparecem antes do "Ver mais"
+
 export function Proximidades() {
+  const [expandido, setExpandido] = useState(false)
+  const { pontosProximos } = imovel
+  const visiveis = expandido ? pontosProximos : pontosProximos.slice(0, PONTOS_VISIVEIS)
+  const ocultos = pontosProximos.length - PONTOS_VISIVEIS
+
   return (
     <section aria-label="O que tem perto">
       <TituloSecao>O que tem perto</TituloSecao>
-      <ul className="divide-y divide-stone-100 overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm">
-        {imovel.pontosProximos.map((ponto) => (
-          <li
-            key={ponto.nome}
-            className="flex items-center justify-between gap-4 px-5 py-3.5 transition hover:bg-brand-50/60"
-          >
-            <span className="flex items-center gap-3 text-[0.95rem] text-stone-700">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-stone-100 text-brand-700">
-                <IconPin className="h-4 w-4" aria-hidden="true" />
+      <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm">
+        <ul className="divide-y divide-stone-100">
+          {visiveis.map((ponto) => (
+            <li
+              key={ponto.nome}
+              className="flex items-center justify-between gap-4 px-5 py-4 transition hover:bg-brand-50/60"
+            >
+              <span className="flex items-center gap-3.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+                  <IconPin className="h-4.5 w-4.5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[0.95rem] leading-snug font-medium text-stone-800">
+                    {ponto.nome}
+                  </span>
+                  <span className="mt-0.5 block text-[0.68rem] font-semibold tracking-wider text-stone-400 uppercase">
+                    {ponto.categoria}
+                  </span>
+                </span>
               </span>
-              {ponto.nome}
-            </span>
-            <span className="shrink-0 rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold whitespace-nowrap text-stone-600">
-              {ponto.distancia}
-            </span>
-          </li>
-        ))}
-      </ul>
+              <span className="shrink-0 text-sm font-medium whitespace-nowrap text-stone-500">
+                {ponto.distancia}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Ver mais / Ver menos */}
+        {ocultos > 0 && (
+          <button
+            onClick={() => setExpandido((v) => !v)}
+            className="flex w-full items-center gap-2 border-t border-stone-100 px-5 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-brand-50/60"
+          >
+            <IconChevron
+              direcao="right"
+              className={`h-4 w-4 transition-transform duration-300 ${
+                expandido ? '-rotate-90' : 'rotate-90'
+              }`}
+              aria-hidden="true"
+            />
+            {expandido ? 'Ver menos' : `Ver mais ${ocultos} pontos próximos`}
+          </button>
+        )}
+      </div>
     </section>
   )
 }
@@ -378,9 +491,7 @@ export function Rodape() {
             />
             <div className="text-left text-sm">
               <p className="font-semibold text-white">{corretor.nome}</p>
-              <p className="text-xs">
-                {corretor.rotulo} · {corretor.registro}
-              </p>
+              <p className="text-xs">{corretor.registro}</p>
             </div>
           </div>
         </div>

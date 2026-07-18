@@ -4,11 +4,12 @@ import { IconChevron, IconExpandir, IconFechar } from './icons.jsx'
 import Mapa from './Mapa.jsx'
 
 /**
- * Galeria de fotos no topo do site, com:
+ * Galeria de fotos no topo do site:
  * - Abas "Fotos" / "Mapa"
- * - Carrossel deslizante com setas, contador e swipe (toque)
- * - Fila de miniaturas clicáveis
- * - Botão "Ver todas as fotos" + modo tela cheia (lightbox)
+ * - Mosaico: 1 foto principal grande + 4 menores (sem setas —
+ *   a navegação foto a foto fica só na tela cheia)
+ * - Botão "Ver todas as fotos (N)" e clique em qualquer foto
+ *   abrem o modo tela cheia (lightbox) com setas, teclado e swipe
  */
 export default function Galeria() {
   const { fotos } = imovel
@@ -24,6 +25,12 @@ export default function Galeria() {
     () => setAtual((i) => (i + 1) % fotos.length),
     [fotos.length],
   )
+
+  /** Abre a tela cheia já na foto clicada */
+  const abrirEm = (indice) => {
+    setAtual(indice)
+    setTelaCheia(true)
+  }
 
   // Navegação por teclado (setas e Esc) quando em tela cheia
   useEffect(() => {
@@ -42,7 +49,7 @@ export default function Galeria() {
     }
   }, [telaCheia, anterior, proxima])
 
-  // Swipe (arrastar com o dedo) no mobile
+  // Swipe (arrastar com o dedo) na tela cheia
   const toqueX = useRef(null)
   const onTouchStart = (e) => (toqueX.current = e.touches[0].clientX)
   const onTouchEnd = (e) => {
@@ -80,84 +87,58 @@ export default function Galeria() {
             <Mapa titulo="Localização do imóvel (aba Mapa)" />
           </div>
         ) : (
-          <>
-            {/* ---- Carrossel principal ---- */}
-            <div
-              className="group relative h-[55vh] max-h-[560px] min-h-[320px] overflow-hidden rounded-2xl bg-stone-900 shadow-lg shadow-stone-900/15 select-none"
-              onTouchStart={onTouchStart}
-              onTouchEnd={onTouchEnd}
-            >
-              <div
-                className="flex h-full transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${atual * 100}%)` }}
-              >
-                {fotos.map((foto, i) => (
-                  <div key={i} className="relative h-full w-full shrink-0">
-                    {/* Fundo desfocado preenche a tela; a foto fica inteira por cima */}
-                    <img
-                      src={foto.src}
-                      alt=""
-                      aria-hidden="true"
-                      loading={i === 0 ? 'eager' : 'lazy'}
-                      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
-                    />
-                    <img
-                      src={foto.src}
-                      alt={foto.alt}
-                      loading={i === 0 ? 'eager' : 'lazy'}
-                      fetchPriority={i === 0 ? 'high' : 'auto'}
-                      className="relative z-10 mx-auto h-full object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Setas */}
-              <BotaoSeta direcao="left" onClick={anterior} />
-              <BotaoSeta direcao="right" onClick={proxima} />
-
-              {/* Contador (ex: 3 / 11) */}
-              <span className="absolute bottom-3 left-3 z-20 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white backdrop-blur">
-                {atual + 1} / {fotos.length}
-              </span>
-
-              {/* Ver todas as fotos */}
+          /* ---- Mosaico: 1 foto grande + 4 menores ---- */
+          <div className="relative">
+            <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] sm:grid-cols-4 sm:grid-rows-2 lg:h-[480px]">
+              {/* Foto principal */}
               <button
-                onClick={() => setTelaCheia(true)}
-                className="absolute right-3 bottom-3 z-20 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-stone-800 shadow transition hover:bg-white"
+                onClick={() => abrirEm(0)}
+                aria-label={`Ampliar foto 1: ${fotos[0].alt}`}
+                className="group relative col-span-2 row-span-2 aspect-[4/3] overflow-hidden sm:aspect-auto"
               >
-                <IconExpandir className="h-4 w-4" aria-hidden="true" />
-                Ver todas as fotos
+                <img
+                  src={fotos[0].src}
+                  alt={fotos[0].alt}
+                  fetchPriority="high"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                />
+                {/* Contador no canto da foto principal */}
+                <span className="absolute top-3 left-3 rounded-lg bg-black/65 px-2.5 py-1 text-sm font-semibold text-white backdrop-blur">
+                  1 / {fotos.length}
+                </span>
               </button>
-            </div>
 
-            {/* ---- Miniaturas ---- */}
-            <div className="scrollbar-none mt-3 flex gap-2.5 overflow-x-auto pb-1.5">
-              {fotos.map((foto, i) => (
+              {/* 4 fotos menores */}
+              {fotos.slice(1, 5).map((foto, i) => (
                 <button
-                  key={i}
-                  onClick={() => setAtual(i)}
-                  aria-label={`Foto ${i + 1}: ${foto.alt}`}
-                  className={`h-16 w-20 shrink-0 overflow-hidden rounded-xl shadow-sm transition duration-300 sm:h-20 sm:w-24 ${
-                    i === atual
-                      ? 'scale-[1.03] ring-3 ring-brand-600'
-                      : 'opacity-55 hover:scale-[1.03] hover:opacity-100'
-                  }`}
+                  key={foto.src}
+                  onClick={() => abrirEm(i + 1)}
+                  aria-label={`Ampliar foto ${i + 2}: ${foto.alt}`}
+                  className="group relative aspect-[4/3] overflow-hidden sm:aspect-auto"
                 >
                   <img
                     src={foto.src}
-                    alt=""
+                    alt={foto.alt}
                     loading="lazy"
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
                   />
                 </button>
               ))}
             </div>
-          </>
+
+            {/* Ver todas as fotos */}
+            <button
+              onClick={() => abrirEm(0)}
+              className="absolute right-3 bottom-3 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-stone-800 shadow-lg transition hover:bg-white"
+            >
+              <IconExpandir className="h-4 w-4" aria-hidden="true" />
+              Ver todas as fotos ({fotos.length})
+            </button>
+          </div>
         )}
       </div>
 
-      {/* ---- Lightbox em tela cheia ---- */}
+      {/* ---- Lightbox em tela cheia (única parte com setas) ---- */}
       {telaCheia && (
         <div
           className="fixed inset-0 z-100 flex flex-col bg-black/95"
@@ -212,7 +193,7 @@ export default function Galeria() {
   )
 }
 
-/** Seta de navegação do carrossel/lightbox */
+/** Seta de navegação do lightbox */
 function BotaoSeta({ direcao, onClick }) {
   return (
     <button

@@ -6,8 +6,8 @@ import {
   BarraSuperior,
   CartaoPreco,
   ChamadaFinal,
-  Corretor,
   Descricao,
+  Diferenciais,
   Faq,
   FichaTecnica,
   ListaCaracteristicas,
@@ -37,10 +37,7 @@ export default function App() {
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 md:grid md:grid-cols-[1fr_300px] md:items-start md:gap-8 lg:grid-cols-[1fr_340px] lg:gap-10">
         {/* ---- Coluna principal ---- */}
         <main className="space-y-14">
-          {/* 3. Proprietário do imóvel */}
-          <Corretor />
-
-          {/* Cartão de preço no MOBILE — logo no começo da página */}
+          {/* Cartão de preço + corretor no MOBILE — logo no começo da página */}
           <div className="md:hidden">
             <CartaoPreco origem="cartao-topo" />
           </div>
@@ -77,6 +74,11 @@ export default function App() {
           {/* 9. O que tem perto */}
           <Reveal>
             <Proximidades />
+          </Reveal>
+
+          {/* Por que este imóvel é diferenciado? */}
+          <Reveal>
+            <Diferenciais />
           </Reveal>
 
           {/* 10. Mapa */}

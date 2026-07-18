@@ -1,19 +1,21 @@
-/* Fontes auto-hospedadas (carregam junto com o site, sem requisição externa) */
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/plus-jakarta-sans';
+/* Fonte auto-hospedada (carrega junto com o site, sem requisição externa) */
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
 
 @import 'tailwindcss';
 
 /* ============================================================
    TEMA — cores e fontes do site (Tailwind CSS v4)
-   - Títulos e preço: Plus Jakarta Sans (geométrica, premium)
-   - Texto: Inter (limpa e legível)
+   - Fonte única: Poppins (geométrica e arredondada, em todos
+     os textos e títulos)
    - Destaque: verde-petróleo profundo; o verde vivo fica
      reservado para os botões de WhatsApp.
    ============================================================ */
 @theme {
-  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Plus Jakarta Sans Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Poppins', system-ui, sans-serif;
 
   /* Cor de destaque (verde-petróleo) */
   --color-brand-50: #f2f7f5;

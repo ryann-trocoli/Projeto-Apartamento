@@ -74,7 +74,7 @@ export function injetarJsonLd() {
       },
       amenityFeature: imovel.caracteristicasCondominio.map((c) => ({
         '@type': 'LocationFeatureSpecification',
-        name: c,
+        name: c.rotulo,
         value: true,
       })),
     },

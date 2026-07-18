@@ -11,6 +11,7 @@
 // Para trocar as fotos: coloque as novas na pasta /fotos-originais,
 // rode "npm run fotos" e ajuste os imports abaixo.
 import fotoFachada from '../assets/fotos/image1.webp'
+import fotoVistaVaranda from '../assets/fotos/vista-varanda.webp'
 import fotoVaranda from '../assets/fotos/image3.webp'
 import fotoVista from '../assets/fotos/image.webp'
 import fotoQuartoPanoramico from '../assets/fotos/image7.webp'
@@ -20,7 +21,6 @@ import fotoQuartoArmarios from '../assets/fotos/image10.webp'
 import fotoAmbienteVidro from '../assets/fotos/image4.webp'
 import fotoBanheiro from '../assets/fotos/image8.webp'
 import fotoCorredor from '../assets/fotos/image9.webp'
-import fotoSalaAngulo from '../assets/fotos/image6.webp'
 import fotoCorretor from '../assets/fotos/corretor.webp'
 
 export const imovel = {
@@ -33,6 +33,7 @@ export const imovel = {
   // ---- GALERIA (ordem de exibição) ----
   fotos: [
     { src: fotoFachada, alt: 'Fachada do edifício com apenas 4 apartamentos' },
+    { src: fotoVistaVaranda, alt: 'Vista da varanda para o vale e a cidade de Bananeiras' },
     { src: fotoVaranda, alt: 'Varanda com cortina europeia e vista para o vale' },
     { src: fotoVista, alt: 'Vista definitiva para a cidade de Bananeiras e o vale' },
     { src: fotoQuartoPanoramico, alt: 'Quarto com janela panorâmica e vista para o vale' },
@@ -42,7 +43,6 @@ export const imovel = {
     { src: fotoAmbienteVidro, alt: 'Ambiente amplo com porta de vidro' },
     { src: fotoBanheiro, alt: 'Banheiro com box de vidro e móveis projetados' },
     { src: fotoCorredor, alt: 'Corredor de acesso aos quartos' },
-    { src: fotoSalaAngulo, alt: 'Sala integrada — outro ângulo' },
   ],
 
   // ---- VALORES ----
@@ -55,61 +55,92 @@ export const imovel = {
 
   // ---- FICHA TÉCNICA (ícones: veja src/components/icons.jsx) ----
   fichaTecnica: [
-    { icone: 'area', rotulo: 'Área privativa', valor: '111 m²' },
-    { icone: 'quartos', rotulo: 'Quartos', valor: '3' },
-    { icone: 'banheiros', rotulo: 'Banheiros', valor: '2' },
-    { icone: 'vagas', rotulo: 'Vaga de garagem', valor: '1' },
+    { icone: 'area', texto: '111 m²' },
+    { icone: 'quartos', texto: '3 quartos' },
+    { icone: 'banheiros', texto: '2 banheiros' },
+    { icone: 'vagas', texto: '1 vaga' },
   ],
 
-  // ---- DESCRIÇÃO COMPLETA (cada item vira um parágrafo) ----
+  // ---- DESCRIÇÃO (cada item vira um parágrafo) ----
   descricao: [
-    'Apartamento Residencial Mirante do Vale exclusivo em Bananeiras-PB, localizado em um edifício com apenas quatro unidades, oferecendo privacidade, tranquilidade e uma vista definitiva para a cidade e para o vale. São 111 m² de área privativa distribuídos em varanda, sala ampla integrada à cozinha americana, três quartos (sendo uma suíte), banheiro social, área de serviço e uma vaga de garagem.',
-    'O imóvel já conta com móveis projetados na cozinha, quartos e banheiros, além de varanda equipada com cortina europeia, proporcionando conforto, praticidade e excelente aproveitamento dos espaços.',
-    'A área de lazer oferece piscina, espaço coberto com churrasqueira e banheiro de apoio, ideal para reunir familiares e amigos. Outro grande diferencial é o reservatório de água de 10.000 litros do edifício, garantindo maior segurança no abastecimento em uma região onde a falta d\'água pode ocorrer com frequência.',
-    'Localizado em uma área tranquila e de fácil acesso, este apartamento é uma excelente opção tanto para moradia quanto para investimento em uma das cidades mais valorizadas do Brejo Paraibano.',
+    'Apartamento exclusivo no Residencial Mirante do Vale, em Bananeiras-PB, um edifício com apenas quatro unidades e vista definitiva para a cidade e o vale. São 111 m² com varanda, sala ampla integrada à cozinha americana, três quartos (sendo uma suíte), área de serviço e uma vaga de garagem.',
+    'Conta com móveis projetados na cozinha, nos quartos e nos banheiros, varanda com cortina europeia e área de lazer com piscina, espaço gourmet coberto e churrasqueira. A caixa d\'água de 10.000 litros garante tranquilidade no abastecimento.',
+    'Em área tranquila e de fácil acesso, é uma excelente opção para morar ou investir em uma das cidades mais valorizadas do Brejo Paraibano.',
+  ],
+
+  // ---- POR QUE ESTE IMÓVEL É DIFERENCIADO ----
+  // (ícones disponíveis: privacidade, economia, praticidade, seguranca, cenario
+  //  — veja ICONES_DIFERENCIAIS em src/components/Secoes.jsx)
+  diferenciais: [
+    {
+      icone: 'privacidade',
+      titulo: 'Privacidade sem igual',
+      texto:
+        'Esqueça a falta de privacidade com os olhares curiosos dos vizinhos invadindo seus ambientes e a rotina dos condomínios planos horizontais.',
+    },
+    {
+      icone: 'economia',
+      titulo: 'Economia prática',
+      texto:
+        'Tenha a enorme vantagem de não ter gastos extras com a manutenção constante exigida pelas casas de um condomínio (pintura, jardinagem etc.).',
+    },
+    {
+      icone: 'praticidade',
+      titulo: 'Praticidade total',
+      texto:
+        'Vá e volte com tranquilidade: o seu apartamento estará sempre limpo, seguro e arrumado do mesmo jeito que você deixou!',
+    },
+    {
+      icone: 'seguranca',
+      titulo: 'Segurança e exclusividade',
+      texto:
+        'Sinta a paz de morar em um edifício com entrada social exclusiva, com apenas 4 apartamentos — sendo apenas 1 apartamento por andar, com acesso por escada.',
+    },
+    {
+      icone: 'cenario',
+      titulo: 'Cenário permanente',
+      texto:
+        'Localizado no 2º andar, o morador tem o privilégio de abrir a janela todos os dias e contemplar o horizonte verdejante do vale e a beleza histórica da cidade de Bananeiras à sua frente.',
+    },
   ],
 
   // ---- O QUE TEM NESTE IMÓVEL ----
+  // Cada item tem um ícone próprio (veja ICONES_CARACTERISTICAS em
+  // src/components/Secoes.jsx). Área, quartos, banheiros e vaga já
+  // aparecem na ficha técnica — não precisam se repetir aqui.
   caracteristicasImovel: [
-    '111 m² privativos',
-    '3 quartos',
-    '1 suíte',
-    'Banheiro social',
-    'Sala ampla',
-    'Cozinha americana',
-    'Área de serviço',
-    'Varanda',
-    'Vista definitiva',
-    'Móveis projetados na cozinha',
-    'Móveis projetados nos quartos',
-    'Móveis projetados nos banheiros',
-    'Cortina europeia na varanda',
-    'Excelente ventilação',
-    'Excelente iluminação natural',
-    '1 vaga de garagem',
+    { icone: 'suite', rotulo: '1 suíte' },
+    { icone: 'cozinha', rotulo: 'Cozinha americana' },
+    { icone: 'sala', rotulo: 'Sala ampla' },
+    { icone: 'varanda', rotulo: 'Varanda com cortina europeia' },
+    { icone: 'moveis', rotulo: 'Móveis projetados' },
+    { icone: 'lavanderia', rotulo: 'Área de serviço' },
+    { icone: 'vista', rotulo: 'Vista definitiva para o vale' },
+    { icone: 'sol', rotulo: 'Ventilação e iluminação natural' },
   ],
 
   // ---- O QUE TEM NO CONDOMÍNIO ----
+  // (nº de apartamentos e valor do condomínio já aparecem em outras
+  //  seções — aqui ficam só as comodidades)
   caracteristicasCondominio: [
-    'Apenas 4 apartamentos',
-    '1 apartamento por andar',
-    'Piscina',
-    'Área gourmet coberta',
-    'Churrasqueira',
-    'Banheiro de apoio',
-    "Caixa d'água de 10.000 litros",
-    'Baixo custo de condomínio (R$ 250/mês)',
+    { icone: 'piscina', rotulo: 'Piscina' },
+    { icone: 'gourmet', rotulo: 'Área gourmet coberta' },
+    { icone: 'churrasqueira', rotulo: 'Churrasqueira' },
+    { icone: 'banheiro', rotulo: 'Banheiro de apoio' },
+    { icone: 'agua', rotulo: "Caixa d'água de 10.000 litros" },
   ],
 
   // ---- O QUE TEM PERTO ----
+  // Os 3 primeiros ficam visíveis; o restante aparece ao clicar
+  // em "Ver mais pontos próximos".
   pontosProximos: [
-    { nome: 'Centro de Bananeiras', distancia: '≈ 3 min de carro' },
-    { nome: 'Igreja Matriz de Nossa Senhora do Livramento', distancia: '≈ 4 min' },
-    { nome: 'Restaurantes e cafés do centro', distancia: '≈ 3 a 5 min' },
-    { nome: 'Supermercados', distancia: '≈ 4 min' },
-    { nome: 'Farmácias', distancia: '≈ 4 min' },
-    { nome: 'Bancos e comércio local', distancia: '≈ 4 min' },
-    { nome: 'Acesso à rodovia para Solânea', distancia: '≈ 1 min' },
+    { nome: 'Centro de Bananeiras', categoria: 'Centro', distancia: '≈ 3 min de carro' },
+    { nome: 'Igreja Matriz de Nossa Senhora do Livramento', categoria: 'Igreja', distancia: '≈ 4 min' },
+    { nome: 'Restaurantes e cafés do centro', categoria: 'Gastronomia', distancia: '≈ 3 a 5 min' },
+    { nome: 'Supermercados', categoria: 'Mercado', distancia: '≈ 4 min' },
+    { nome: 'Farmácias', categoria: 'Farmácia', distancia: '≈ 4 min' },
+    { nome: 'Bancos e comércio local', categoria: 'Serviços', distancia: '≈ 4 min' },
+    { nome: 'Acesso à rodovia para Solânea', categoria: 'Acesso', distancia: '≈ 1 min' },
   ],
 
   // ---- MAPA ----
