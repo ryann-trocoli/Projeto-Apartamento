@@ -7,8 +7,8 @@
  * normalmente, sem erros).
  */
 
-// >>> COLOQUE AQUI o ID do Meta Pixel (ex: '123456789012345')
-export const PIXEL_ID = ''
+// >>> ID do Meta Pixel (Facebook/Instagram Ads)
+export const PIXEL_ID = '1354828640098844'
 
 // >>> COLOQUE AQUI o ID do Google Tag Manager (ex: 'GTM-XXXXXXX')
 export const GTM_ID = ''

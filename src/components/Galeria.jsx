@@ -90,7 +90,10 @@ export default function Galeria() {
           /* ---- Mosaico: 1 foto grande + 4 menores ---- */
           <div className="relative">
             <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] sm:grid-cols-4 sm:grid-rows-2 lg:h-[480px]">
-              {/* Foto principal */}
+              {/* Foto principal
+                  (imagens com position:absolute + inset-0: em navegadores de
+                  celular, altura percentual dentro de flex/aspect-ratio pode
+                  falhar e a foto some — o posicionamento absoluto não falha) */}
               <button
                 onClick={() => abrirEm(0)}
                 aria-label={`Ampliar foto 1: ${fotos[0].alt}`}
@@ -100,7 +103,7 @@ export default function Galeria() {
                   src={fotos[0].src}
                   alt={fotos[0].alt}
                   fetchPriority="high"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />
                 {/* Contador no canto da foto principal */}
                 <span className="absolute top-3 left-3 rounded-lg bg-black/65 px-2.5 py-1 text-sm font-semibold text-white backdrop-blur">
@@ -116,11 +119,13 @@ export default function Galeria() {
                   aria-label={`Ampliar foto ${i + 2}: ${foto.alt}`}
                   className="group relative aspect-[4/3] overflow-hidden sm:aspect-auto"
                 >
+                  {/* Sem loading="lazy": estas fotos ficam na primeira dobra
+                      e o lazy + posição absoluta impede o carregamento em
+                      alguns navegadores */}
                   <img
                     src={foto.src}
                     alt={foto.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+                    className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
                   />
                 </button>
               ))}
@@ -160,14 +165,16 @@ export default function Galeria() {
           </div>
 
           <div
-            className="relative flex min-h-0 flex-1 items-center justify-center px-2"
+            className="relative min-h-0 flex-1"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
+            {/* Absoluta + object-contain: enche a área disponível sem depender
+                de altura percentual (que falha em navegadores de celular) */}
             <img
               src={fotos[atual].src}
               alt={fotos[atual].alt}
-              className="max-h-full max-w-full object-contain"
+              className="absolute inset-0 h-full w-full object-contain px-2"
             />
             <BotaoSeta direcao="left" onClick={anterior} />
             <BotaoSeta direcao="right" onClick={proxima} />
