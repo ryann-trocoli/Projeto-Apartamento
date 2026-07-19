@@ -163,15 +163,18 @@ export default function Galeria() {
           </div>
 
           <div
-            className="relative min-h-0 flex-1"
+            className="relative flex min-h-0 flex-1"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            {/* Absoluta + object-contain: enche a área disponível sem depender
-                de altura percentual (que falha em navegadores de celular) */}
+            {/* A imagem é um item de flex — SEM altura percentual e SEM
+                posição absoluta: o Safari do iPhone calcula altura 0
+                nesses dois modelos e a foto fica invisível. Aqui o
+                próprio flexbox dá o tamanho, e o object-contain encaixa
+                a foto inteira na área. */}
             <Foto
               foto={fotos[atual]}
-              className="absolute inset-0 h-full w-full object-contain px-2"
+              className="min-w-0 flex-1 object-contain px-2"
             />
             <BotaoSeta direcao="left" onClick={anterior} />
             <BotaoSeta direcao="right" onClick={proxima} />
@@ -187,7 +190,10 @@ export default function Galeria() {
                   i === atual ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'
                 }`}
               >
-                <Foto foto={foto} alt="" loading="lazy" className="h-full w-full object-cover" />
+                {/* Sem loading="lazy": as miniaturas nunca chegavam a
+                    carregar em alguns navegadores (mesmo bug já visto
+                    no mosaico e na foto do corretor) */}
+                <Foto foto={foto} alt="" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
