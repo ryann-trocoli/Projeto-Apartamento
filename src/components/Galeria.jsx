@@ -163,18 +163,18 @@ export default function Galeria() {
           </div>
 
           <div
-            className="relative flex min-h-0 flex-1"
+            className="relative flex min-h-0 flex-1 items-center justify-center"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            {/* A imagem é um item de flex — SEM altura percentual e SEM
-                posição absoluta: o Safari do iPhone calcula altura 0
-                nesses dois modelos e a foto fica invisível. Aqui o
-                próprio flexbox dá o tamanho, e o object-contain encaixa
-                a foto inteira na área. */}
+            {/* Tamanho SOMENTE em unidades da tela (vh/vw): não depende
+                de nenhum elemento pai. Alturas herdadas (percentual,
+                absoluta ou flex) davam 0 no Safari do iPhone (foto
+                invisível) e estouravam no Opera GX (foto gigante).
+                11rem = espaço do topo + fila de miniaturas. */}
             <Foto
               foto={fotos[atual]}
-              className="min-w-0 flex-1 object-contain px-2"
+              className="max-h-[calc(100vh-11rem)] max-w-[calc(100vw-1rem)] object-contain"
             />
             <BotaoSeta direcao="left" onClick={anterior} />
             <BotaoSeta direcao="right" onClick={proxima} />
