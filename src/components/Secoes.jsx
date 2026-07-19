@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { imovel } from '../data/imovel.js'
 import BotaoWhatsApp from './BotaoWhatsApp.jsx'
+import Foto from './Foto.jsx'
 import Mapa from './Mapa.jsx'
 import {
   IconAgua,
@@ -100,8 +101,8 @@ export function CartaoPreco({ origem = 'cartao-preco' }) {
         {/* Corretor — acompanha o preço ao rolar a página */}
         <div className="mb-5 flex items-center gap-3 border-b border-stone-100 pb-5">
           <span className="relative inline-block shrink-0">
-            <img
-              src={corretor.foto}
+            <Foto
+              foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
               alt={`Foto de ${corretor.nome}`}
               className="h-13 w-13 rounded-full object-cover shadow ring-2 ring-white"
             />
@@ -482,8 +483,8 @@ export function Rodape() {
             <p className="mt-1 text-sm">{imovel.endereco}</p>
           </div>
           <div className="flex items-center gap-3">
-            <img
-              src={corretor.foto}
+            <Foto
+              foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
               alt=""
               aria-hidden="true"
               loading="lazy"

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { imovel } from '../data/imovel.js'
 import { IconChevron, IconExpandir, IconFechar } from './icons.jsx'
+import Foto from './Foto.jsx'
 import Mapa from './Mapa.jsx'
 
 /**
@@ -87,23 +88,23 @@ export default function Galeria() {
             <Mapa titulo="Localização do imóvel (aba Mapa)" />
           </div>
         ) : (
-          /* ---- Mosaico: 1 foto grande + 4 menores ---- */
+          /* ---- Mosaico: 1 foto grande + 4 menores ----
+              As linhas do grid têm ALTURA FIXA no celular (auto-rows):
+              alturas em pixel funcionam em qualquer navegador, ao
+              contrário de aspect-ratio/altura percentual, que falham
+              no Safari do iPhone e deixam as fotos invisíveis. */
           <div className="relative">
-            <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] sm:grid-cols-4 sm:grid-rows-2 lg:h-[480px]">
-              {/* Foto principal
-                  (imagens com position:absolute + inset-0: em navegadores de
-                  celular, altura percentual dentro de flex/aspect-ratio pode
-                  falhar e a foto some — o posicionamento absoluto não falha) */}
+            <div className="grid auto-rows-[110px] grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:h-[420px] sm:grid-cols-4 sm:grid-rows-2 lg:h-[480px]">
+              {/* Foto principal (ocupa 2 colunas × 2 linhas) */}
               <button
                 onClick={() => abrirEm(0)}
                 aria-label={`Ampliar foto 1: ${fotos[0].alt}`}
-                className="group relative col-span-2 row-span-2 aspect-[4/3] overflow-hidden sm:aspect-auto"
+                className="group relative col-span-2 row-span-2 overflow-hidden"
               >
-                <img
-                  src={fotos[0].src}
-                  alt={fotos[0].alt}
+                <Foto
+                  foto={fotos[0]}
                   fetchPriority="high"
-                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                 />
                 {/* Contador no canto da foto principal */}
                 <span className="absolute top-3 left-3 rounded-lg bg-black/65 px-2.5 py-1 text-sm font-semibold text-white backdrop-blur">
@@ -111,21 +112,18 @@ export default function Galeria() {
                 </span>
               </button>
 
-              {/* 4 fotos menores */}
+              {/* 4 fotos menores (sem loading="lazy": ficam na primeira
+                  dobra e o lazy atrasava/impedia o carregamento) */}
               {fotos.slice(1, 5).map((foto, i) => (
                 <button
                   key={foto.src}
                   onClick={() => abrirEm(i + 1)}
                   aria-label={`Ampliar foto ${i + 2}: ${foto.alt}`}
-                  className="group relative aspect-[4/3] overflow-hidden sm:aspect-auto"
+                  className="group relative overflow-hidden"
                 >
-                  {/* Sem loading="lazy": estas fotos ficam na primeira dobra
-                      e o lazy + posição absoluta impede o carregamento em
-                      alguns navegadores */}
-                  <img
-                    src={foto.src}
-                    alt={foto.alt}
-                    className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+                  <Foto
+                    foto={foto}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
                   />
                 </button>
               ))}
@@ -171,9 +169,8 @@ export default function Galeria() {
           >
             {/* Absoluta + object-contain: enche a área disponível sem depender
                 de altura percentual (que falha em navegadores de celular) */}
-            <img
-              src={fotos[atual].src}
-              alt={fotos[atual].alt}
+            <Foto
+              foto={fotos[atual]}
               className="absolute inset-0 h-full w-full object-contain px-2"
             />
             <BotaoSeta direcao="left" onClick={anterior} />
@@ -190,7 +187,7 @@ export default function Galeria() {
                   i === atual ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-100'
                 }`}
               >
-                <img src={foto.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                <Foto foto={foto} alt="" loading="lazy" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>

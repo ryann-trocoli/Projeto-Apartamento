@@ -7,6 +7,8 @@
  *
  * Saída:
  *   - src/assets/fotos/*.webp  (fotos otimizadas usadas pelo site)
+ *   - src/assets/fotos/*.jpg   (reserva para navegadores sem WebP, ex.
+ *                               Safari de iPhones mais antigos)
  *   - public/og-image.jpg      (imagem de compartilhamento, 1200x630)
  */
 import sharp from 'sharp'
@@ -24,17 +26,18 @@ const arquivos = (await readdir(ORIGEM)).filter((f) => /\.(png|jpe?g)$/i.test(f)
 for (const arquivo of arquivos) {
   const nome = path.parse(arquivo).name
   const entrada = path.join(ORIGEM, arquivo)
-  const saida = path.join(DESTINO, `${nome}.webp`)
 
   // A foto do corretor vira um avatar pequeno — não precisa de alta resolução
   const largura = nome === 'corretor' ? 320 : 1600
+  const base = sharp(entrada).resize({ width: largura, withoutEnlargement: true }) // nunca amplia além do original
 
-  await sharp(entrada)
-    .resize({ width: largura, withoutEnlargement: true }) // nunca amplia além do original
-    .webp({ quality: 82 })
-    .toFile(saida)
+  // WebP (formato principal, mais leve)
+  await base.clone().webp({ quality: 82 }).toFile(path.join(DESTINO, `${nome}.webp`))
 
-  console.log(`✔ ${arquivo} → ${saida}`)
+  // JPEG (reserva para navegadores sem suporte a WebP)
+  await base.clone().jpeg({ quality: 80, mozjpeg: true }).toFile(path.join(DESTINO, `${nome}.jpg`))
+
+  console.log(`✔ ${arquivo} → ${nome}.webp + ${nome}.jpg`)
 }
 
 // Gera a imagem Open Graph (1200x630, formato exigido pelas redes sociais)

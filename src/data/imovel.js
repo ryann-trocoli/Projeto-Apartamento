@@ -10,18 +10,33 @@
 // ---- FOTOS DA GALERIA (a ordem aqui é a ordem no site) ----
 // Para trocar as fotos: coloque as novas na pasta /fotos-originais,
 // rode "npm run fotos" e ajuste os imports abaixo.
+// Cada foto tem duas versões: .webp (leve, navegadores modernos) e
+// .jpg (reserva para navegadores sem WebP, ex. Safari mais antigo) —
+// o "npm run fotos" gera as duas automaticamente.
 import fotoFachada from '../assets/fotos/image1.webp'
+import fotoFachadaJpg from '../assets/fotos/image1.jpg'
 import fotoVistaVaranda from '../assets/fotos/vista-varanda.webp'
+import fotoVistaVarandaJpg from '../assets/fotos/vista-varanda.jpg'
 import fotoVaranda from '../assets/fotos/image3.webp'
+import fotoVarandaJpg from '../assets/fotos/image3.jpg'
 import fotoVista from '../assets/fotos/image.webp'
+import fotoVistaJpg from '../assets/fotos/image.jpg'
 import fotoQuartoPanoramico from '../assets/fotos/image7.webp'
+import fotoQuartoPanoramicoJpg from '../assets/fotos/image7.jpg'
 import fotoCozinhaBancada from '../assets/fotos/image5.webp'
+import fotoCozinhaBancadaJpg from '../assets/fotos/image5.jpg'
 import fotoSalaIntegrada from '../assets/fotos/image2.webp'
+import fotoSalaIntegradaJpg from '../assets/fotos/image2.jpg'
 import fotoQuartoArmarios from '../assets/fotos/image10.webp'
+import fotoQuartoArmariosJpg from '../assets/fotos/image10.jpg'
 import fotoAmbienteVidro from '../assets/fotos/image4.webp'
+import fotoAmbienteVidroJpg from '../assets/fotos/image4.jpg'
 import fotoBanheiro from '../assets/fotos/image8.webp'
+import fotoBanheiroJpg from '../assets/fotos/image8.jpg'
 import fotoCorredor from '../assets/fotos/image9.webp'
+import fotoCorredorJpg from '../assets/fotos/image9.jpg'
 import fotoCorretor from '../assets/fotos/corretor.webp'
+import fotoCorretorJpg from '../assets/fotos/corretor.jpg'
 
 export const imovel = {
   // ---- IDENTIFICAÇÃO ----
@@ -32,17 +47,17 @@ export const imovel = {
 
   // ---- GALERIA (ordem de exibição) ----
   fotos: [
-    { src: fotoFachada, alt: 'Fachada do edifício com apenas 4 apartamentos' },
-    { src: fotoVistaVaranda, alt: 'Vista da varanda para o vale e a cidade de Bananeiras' },
-    { src: fotoVaranda, alt: 'Varanda com cortina europeia e vista para o vale' },
-    { src: fotoVista, alt: 'Vista definitiva para a cidade de Bananeiras e o vale' },
-    { src: fotoQuartoPanoramico, alt: 'Quarto com janela panorâmica e vista para o vale' },
-    { src: fotoCozinhaBancada, alt: 'Cozinha americana com bancada e móveis projetados' },
-    { src: fotoSalaIntegrada, alt: 'Sala ampla integrada à cozinha americana' },
-    { src: fotoQuartoArmarios, alt: 'Quarto com armários projetados' },
-    { src: fotoAmbienteVidro, alt: 'Ambiente amplo com porta de vidro' },
-    { src: fotoBanheiro, alt: 'Banheiro com box de vidro e móveis projetados' },
-    { src: fotoCorredor, alt: 'Corredor de acesso aos quartos' },
+    { src: fotoFachada, jpg: fotoFachadaJpg, alt: 'Fachada do edifício com apenas 4 apartamentos' },
+    { src: fotoVistaVaranda, jpg: fotoVistaVarandaJpg, alt: 'Vista da varanda para o vale e a cidade de Bananeiras' },
+    { src: fotoVaranda, jpg: fotoVarandaJpg, alt: 'Varanda com cortina europeia e vista para o vale' },
+    { src: fotoVista, jpg: fotoVistaJpg, alt: 'Vista definitiva para a cidade de Bananeiras e o vale' },
+    { src: fotoQuartoPanoramico, jpg: fotoQuartoPanoramicoJpg, alt: 'Quarto com janela panorâmica e vista para o vale' },
+    { src: fotoCozinhaBancada, jpg: fotoCozinhaBancadaJpg, alt: 'Cozinha americana com bancada e móveis projetados' },
+    { src: fotoSalaIntegrada, jpg: fotoSalaIntegradaJpg, alt: 'Sala ampla integrada à cozinha americana' },
+    { src: fotoQuartoArmarios, jpg: fotoQuartoArmariosJpg, alt: 'Quarto com armários projetados' },
+    { src: fotoAmbienteVidro, jpg: fotoAmbienteVidroJpg, alt: 'Ambiente amplo com porta de vidro' },
+    { src: fotoBanheiro, jpg: fotoBanheiroJpg, alt: 'Banheiro com box de vidro e móveis projetados' },
+    { src: fotoCorredor, jpg: fotoCorredorJpg, alt: 'Corredor de acesso aos quartos' },
   ],
 
   // ---- VALORES ----
@@ -156,6 +171,7 @@ export const imovel = {
     rotulo: 'Corretor do imóvel',
     registro: 'CRECI-PB 10429',
     foto: fotoCorretor,
+    fotoJpg: fotoCorretorJpg,
   },
 
   // ---- WHATSAPP ----
