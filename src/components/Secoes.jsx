@@ -87,7 +87,6 @@ export function BarraSuperior() {
    (fixo ao rolar) e logo no início da página no mobile.
    ============================================================ */
 export function CartaoPreco({ origem = 'cartao-preco' }) {
-  const { corretor } = imovel
   return (
     <section
       aria-label="Preço e contato"
@@ -98,27 +97,6 @@ export function CartaoPreco({ origem = 'cartao-preco' }) {
       <div className="h-1.5 bg-gradient-to-r from-brand-700 via-brand-600 to-brand-300" />
 
       <div className="p-6">
-        {/* Corretor — acompanha o preço ao rolar a página */}
-        <div className="mb-5 flex items-center gap-3 border-b border-stone-100 pb-5">
-          <span className="relative inline-block shrink-0">
-            <Foto
-              foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
-              alt={`Foto de ${corretor.nome}`}
-              className="h-13 w-13 rounded-full object-cover shadow ring-2 ring-white"
-            />
-            <span
-              className="absolute right-0 bottom-0 block h-3.5 w-3.5 rounded-full border-2 border-white bg-whats-500"
-              title="Disponível no WhatsApp"
-            />
-          </span>
-          <div className="min-w-0">
-            <p className="truncate leading-tight font-bold text-stone-900">
-              {corretor.nome}
-            </p>
-            <p className="text-xs text-stone-500">{corretor.registro}</p>
-          </div>
-        </div>
-
         <div className="text-center">
           <p className="text-sm font-medium tracking-wide text-stone-500">À venda por</p>
           <p className="font-display mt-1 text-[2.6rem] leading-none font-bold tracking-tight text-stone-900">
@@ -420,6 +398,45 @@ export function SecaoMapa() {
 /* ============================================================
    FAIXA FINAL DE CONVERSÃO — fecho da página
    ============================================================ */
+/* ============================================================
+   CORRETOR DO IMÓVEL — apresentação com foto, nome e CRECI,
+   logo antes da chamada final.
+   ============================================================ */
+export function SecaoCorretor() {
+  const { corretor } = imovel
+  return (
+    <section
+      aria-label="Corretor do imóvel"
+      className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm sm:p-8"
+    >
+      <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:gap-6 sm:text-left">
+        <span className="relative inline-block shrink-0">
+          {/* Sem loading="lazy": em alguns navegadores a foto nunca
+              chegava a carregar (mesmo problema visto na galeria) */}
+          <Foto
+            foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
+            alt={`Foto de ${corretor.nome}`}
+            className="h-24 w-24 rounded-full object-cover shadow-md ring-4 ring-brand-50"
+          />
+          <span
+            className="absolute right-1 bottom-1 block h-4 w-4 rounded-full border-2 border-white bg-whats-500"
+            title="Disponível no WhatsApp"
+          />
+        </span>
+        <div className="min-w-0">
+          <p className="text-xs font-semibold tracking-wide text-brand-700 uppercase">
+            {corretor.rotulo}
+          </p>
+          <p className="font-display mt-1 text-xl leading-tight font-bold text-stone-900">
+            {corretor.nome}
+          </p>
+          <p className="mt-0.5 text-sm text-stone-500">{corretor.registro}</p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function ChamadaFinal() {
   return (
     <section
@@ -483,11 +500,12 @@ export function Rodape() {
             <p className="mt-1 text-sm">{imovel.endereco}</p>
           </div>
           <div className="flex items-center gap-3">
+            {/* Sem loading="lazy" — o navegador pode nunca carregar
+                a foto (mesmo problema visto na galeria) */}
             <Foto
               foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
               alt=""
               aria-hidden="true"
-              loading="lazy"
               className="h-11 w-11 rounded-full object-cover ring-2 ring-white/20"
             />
             <div className="text-left text-sm">
