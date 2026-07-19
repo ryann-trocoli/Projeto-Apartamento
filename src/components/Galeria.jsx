@@ -143,13 +143,34 @@ export default function Galeria() {
 
       {/* ---- Lightbox em tela cheia (única parte com setas) ---- */}
       {telaCheia && (
-        <div
-          className="fixed inset-0 z-100 flex flex-col bg-black/95"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Fotos em tela cheia"
-        >
-          <div className="flex items-center justify-between p-4 text-white">
+        /* ---- Tela cheia SEM coluna flex: cada camada é fixada
+                direto na tela (position:fixed + unidades vh/vw).
+                A coluna flex anterior (flex-1/min-h-0) tinha a altura
+                calculada errada no Safari do iPhone e no Opera GX,
+                empurrando a foto para fora da área visível. Camadas
+                fixas na tela funcionam igual em todos os navegadores
+                (o fundo escuro, que sempre foi fixo, nunca falhou). */
+        <div role="dialog" aria-modal="true" aria-label="Fotos em tela cheia">
+          {/* Fundo escuro — também recebe o gesto de arrastar (swipe) */}
+          <div
+            className="fixed inset-0 z-[100] bg-black/95"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          />
+
+          {/* Foto no centro da tela. A centralização usa transform
+              (-50% do próprio tamanho) e o limite vem da tela do
+              aparelho — nada depende de elemento pai. 12rem = espaço
+              do cabeçalho + fila de miniaturas. */}
+          <div className="pointer-events-none fixed top-[calc(50%-1rem)] left-1/2 z-[100] -translate-x-1/2 -translate-y-1/2">
+            <Foto
+              foto={fotos[atual]}
+              className="max-h-[calc(100vh-12rem)] max-w-[calc(100vw-1rem)] object-contain"
+            />
+          </div>
+
+          {/* Cabeçalho: contador + botão fechar */}
+          <div className="fixed top-0 right-0 left-0 z-[110] flex items-center justify-between p-4 text-white">
             <span className="text-sm font-medium">
               {atual + 1} / {fotos.length} — {fotos[atual].alt}
             </span>
@@ -162,25 +183,12 @@ export default function Galeria() {
             </button>
           </div>
 
-          <div
-            className="relative flex min-h-0 flex-1 items-center justify-center"
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            {/* Tamanho SOMENTE em unidades da tela (vh/vw): não depende
-                de nenhum elemento pai. Alturas herdadas (percentual,
-                absoluta ou flex) davam 0 no Safari do iPhone (foto
-                invisível) e estouravam no Opera GX (foto gigante).
-                11rem = espaço do topo + fila de miniaturas. */}
-            <Foto
-              foto={fotos[atual]}
-              className="max-h-[calc(100vh-11rem)] max-w-[calc(100vw-1rem)] object-contain"
-            />
-            <BotaoSeta direcao="left" onClick={anterior} />
-            <BotaoSeta direcao="right" onClick={proxima} />
-          </div>
+          {/* Setas de navegação */}
+          <BotaoSeta direcao="left" onClick={anterior} />
+          <BotaoSeta direcao="right" onClick={proxima} />
 
-          <div className="scrollbar-none flex justify-start gap-2 overflow-x-auto p-4 sm:justify-center">
+          {/* Fila de miniaturas, presa ao pé da tela */}
+          <div className="scrollbar-none fixed right-0 bottom-0 left-0 z-[110] flex justify-start gap-2 overflow-x-auto p-4 sm:justify-center">
             {fotos.map((foto, i) => (
               <button
                 key={i}
@@ -203,13 +211,13 @@ export default function Galeria() {
   )
 }
 
-/** Seta de navegação do lightbox */
+/** Seta de navegação do lightbox (fixada direto na tela) */
 function BotaoSeta({ direcao, onClick }) {
   return (
     <button
       onClick={onClick}
       aria-label={direcao === 'left' ? 'Foto anterior' : 'Próxima foto'}
-      className={`absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur transition hover:bg-black/70 ${
+      className={`fixed top-1/2 z-[110] flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur transition hover:bg-black/70 ${
         direcao === 'left' ? 'left-3' : 'right-3'
       }`}
     >
