@@ -398,45 +398,6 @@ export function SecaoMapa() {
 /* ============================================================
    FAIXA FINAL DE CONVERSÃO — fecho da página
    ============================================================ */
-/* ============================================================
-   CORRETOR DO IMÓVEL — apresentação com foto, nome e CRECI,
-   logo antes da chamada final.
-   ============================================================ */
-export function SecaoCorretor() {
-  const { corretor } = imovel
-  return (
-    <section
-      aria-label="Corretor do imóvel"
-      className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm sm:p-8"
-    >
-      <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:gap-6 sm:text-left">
-        <span className="relative inline-block shrink-0">
-          {/* Sem loading="lazy": em alguns navegadores a foto nunca
-              chegava a carregar (mesmo problema visto na galeria) */}
-          <Foto
-            foto={{ src: corretor.foto, jpg: corretor.fotoJpg }}
-            alt={`Foto de ${corretor.nome}`}
-            className="h-24 w-24 rounded-full object-cover shadow-md ring-4 ring-brand-50"
-          />
-          <span
-            className="absolute right-1 bottom-1 block h-4 w-4 rounded-full border-2 border-white bg-whats-500"
-            title="Disponível no WhatsApp"
-          />
-        </span>
-        <div className="min-w-0">
-          <p className="text-xs font-semibold tracking-wide text-brand-700 uppercase">
-            {corretor.rotulo}
-          </p>
-          <p className="font-display mt-1 text-xl leading-tight font-bold text-stone-900">
-            {corretor.nome}
-          </p>
-          <p className="mt-0.5 text-sm text-stone-500">{corretor.registro}</p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export function ChamadaFinal() {
   return (
     <section

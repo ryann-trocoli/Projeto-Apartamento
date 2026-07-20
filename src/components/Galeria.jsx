@@ -17,15 +17,26 @@ import Mapa from './Mapa.jsx'
 export default function Galeria() {
   const { fotos } = imovel
   const [aba, setAba] = useState('fotos')
-  const [atual, setAtual] = useState(0)
+  const [atual, setAtual] = useState(0) // índice do QUADRO (não da foto)
+
+  // Quadros do carrossel: o primeiro mostra as fotos 1 e 2 lado a
+  // lado; os demais mostram uma foto por vez.
+  const quadros = [[fotos[0], fotos[1]], ...fotos.slice(2).map((f) => [f])]
+
+  /** Em qual quadro está a foto de índice `i`? (0 e 1 → quadro 0) */
+  const quadroDaFoto = (i) => (i <= 1 ? 0 : i - 1)
+
+  /** Rótulo do contador: "1-2 / 11" no quadro duplo, "3 / 11" nos demais */
+  const rotuloContador =
+    atual === 0 ? `1-2 / ${fotos.length}` : `${atual + 2} / ${fotos.length}`
 
   const anterior = useCallback(
-    () => setAtual((i) => (i - 1 + fotos.length) % fotos.length),
-    [fotos.length],
+    () => setAtual((i) => (i - 1 + quadros.length) % quadros.length),
+    [quadros.length],
   )
   const proxima = useCallback(
-    () => setAtual((i) => (i + 1) % fotos.length),
-    [fotos.length],
+    () => setAtual((i) => (i + 1) % quadros.length),
+    [quadros.length],
   )
 
   // Swipe (arrastar com o dedo) no mobile
@@ -77,33 +88,47 @@ export default function Galeria() {
                 className="flex h-full transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${atual * 100}%)` }}
               >
-                {fotos.map((foto, i) => (
-                  <div key={i} className="relative h-full w-full shrink-0">
-                    {/* Fundo desfocado preenche a tela; a foto fica
-                        inteira por cima. Sem loading="lazy": em alguns
-                        navegadores as fotos nunca chegavam a carregar. */}
-                    <Foto
-                      foto={foto}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
-                    />
-                    <Foto
-                      foto={foto}
-                      fetchPriority={i === 0 ? 'high' : 'auto'}
-                      className="relative z-10 mx-auto h-full object-contain"
-                    />
-                  </div>
-                ))}
+                {quadros.map((grupo, i) =>
+                  grupo.length === 2 ? (
+                    /* Quadro duplo: fotos 1 e 2 lado a lado */
+                    <div key={i} className="flex h-full w-full shrink-0 gap-1">
+                      {grupo.map((foto) => (
+                        <div key={foto.src} className="relative h-full w-1/2 overflow-hidden">
+                          <Foto
+                            foto={foto}
+                            fetchPriority="high"
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    /* Quadro simples: uma foto com fundo desfocado.
+                        Sem loading="lazy": em alguns navegadores as
+                        fotos nunca chegavam a carregar. */
+                    <div key={i} className="relative h-full w-full shrink-0">
+                      <Foto
+                        foto={grupo[0]}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
+                      />
+                      <Foto
+                        foto={grupo[0]}
+                        className="relative z-10 mx-auto h-full object-contain"
+                      />
+                    </div>
+                  ),
+                )}
               </div>
 
               {/* Setas */}
               <BotaoSeta direcao="left" onClick={anterior} />
               <BotaoSeta direcao="right" onClick={proxima} />
 
-              {/* Contador (ex: 3 / 11) */}
+              {/* Contador (ex: 1-2 / 11, 3 / 11) */}
               <span className="absolute bottom-3 left-3 z-20 rounded-full bg-black/60 px-3 py-1 text-sm font-medium text-white backdrop-blur">
-                {atual + 1} / {fotos.length}
+                {rotuloContador}
               </span>
             </div>
 
@@ -112,10 +137,10 @@ export default function Galeria() {
               {fotos.map((foto, i) => (
                 <button
                   key={i}
-                  onClick={() => setAtual(i)}
+                  onClick={() => setAtual(quadroDaFoto(i))}
                   aria-label={`Foto ${i + 1}: ${foto.alt}`}
                   className={`h-16 w-20 shrink-0 overflow-hidden rounded-xl shadow-sm transition duration-300 sm:h-20 sm:w-24 ${
-                    i === atual
+                    quadroDaFoto(i) === atual
                       ? 'scale-[1.03] ring-3 ring-brand-600'
                       : 'opacity-55 hover:scale-[1.03] hover:opacity-100'
                   }`}

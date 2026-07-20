@@ -13,7 +13,6 @@ import {
   ListaCaracteristicas,
   Proximidades,
   Rodape,
-  SecaoCorretor,
   SecaoMapa,
   TituloEndereco,
 } from './components/Secoes.jsx'
@@ -89,11 +88,6 @@ export default function App() {
 
           {/* 11. FAQ (aparece apenas se houver perguntas em src/data/imovel.js) */}
           <Faq />
-
-          {/* Corretor do imóvel — foto, nome e CRECI */}
-          <Reveal>
-            <SecaoCorretor />
-          </Reveal>
 
           {/* Faixa final de conversão */}
           <Reveal>
