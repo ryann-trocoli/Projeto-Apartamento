@@ -61,11 +61,11 @@ export const imovel = {
   ],
 
   // ---- VALORES ----
-  preco: 'R$ 499.000',
+  preco: 'R$ 490.000',
   precoDetalhes: [
     { rotulo: 'Condomínio', valor: 'R$ 250/mês' },
     { rotulo: 'IPTU', valor: 'R$ 41,67/mês (R$ 500/ano)' },
-    { rotulo: 'Valor por m²', valor: 'R$ 4.495,50/m²' },
+    { rotulo: 'Valor por m²', valor: 'R$ 4.414,41/m²' },
   ],
 
   // ---- FICHA TÉCNICA (ícones: veja src/components/icons.jsx) ----
