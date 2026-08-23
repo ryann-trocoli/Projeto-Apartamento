@@ -99,9 +99,24 @@ export function CartaoPreco({ origem = 'cartao-preco' }) {
       <div className="p-6">
         <div className="text-center">
           <p className="text-sm font-medium tracking-wide text-stone-500">À venda por</p>
+
+          {/* Preço anterior riscado — só aparece se "precoAnterior" estiver
+              preenchido em src/data/imovel.js (efeito de desconto) */}
+          {imovel.precoAnterior && (
+            <p className="mt-1 text-lg font-medium text-stone-400 line-through">
+              {imovel.precoAnterior}
+            </p>
+          )}
+
           <p className="font-display mt-1 text-[2.6rem] leading-none font-bold tracking-tight text-stone-900">
             {imovel.preco}
           </p>
+
+          {imovel.precoAnterior && (
+            <span className="mt-2 inline-block rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold tracking-wide text-white">
+              Oferta especial
+            </span>
+          )}
         </div>
 
         <BotaoWhatsApp origem={origem} className="mt-6 w-full" />

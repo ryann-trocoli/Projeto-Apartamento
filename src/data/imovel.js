@@ -61,11 +61,15 @@ export const imovel = {
   ],
 
   // ---- VALORES ----
-  preco: 'R$ 450.000',
+  // "precoAnterior" é opcional: se preenchido, aparece riscado acima do
+  // preço atual (efeito de desconto). Para tirar a promoção, apague essa
+  // linha (ou deixe undefined) que o cartão volta a mostrar só o preço.
+  precoAnterior: 'R$ 450.000',
+  preco: 'R$ 445.000',
   precoDetalhes: [
     { rotulo: 'Condomínio', valor: 'R$ 250/mês' },
     { rotulo: 'IPTU', valor: 'R$ 41,67/mês (R$ 500/ano)' },
-    { rotulo: 'Valor por m²', valor: 'R$ 4.054,05/m²' },
+    { rotulo: 'Valor por m²', valor: 'R$ 4.009,01/m²' },
   ],
 
   // ---- FICHA TÉCNICA (ícones: veja src/components/icons.jsx) ----
