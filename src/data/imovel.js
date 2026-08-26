@@ -82,7 +82,7 @@ export const imovel = {
 
   // ---- DESCRIÇÃO (cada item vira um parágrafo) ----
   descricao: [
-    'Apartamento exclusivo no Residencial Mirante do Vale, em Bananeiras-PB, um edifício com apenas quatro unidades e vista definitiva para a cidade e o vale. São 111 m² com varanda, sala ampla integrada à cozinha americana, três quartos (sendo uma suíte), área de serviço e uma vaga de garagem.',
+    'Apartamento exclusivo no Residencial Mirante do Vale, em Bananeiras-PB, um edifício com apenas quatro unidades e vista definitiva para a cidade e o vale. São 111 m² com varanda, sala ampla integrada à cozinha americana, três quartos (sendo uma suíte), área de serviço e uma vaga de garagem. O apartamento foi recém-pintado e está pronto para morar.',
     'Conta com móveis projetados na cozinha, nos quartos e nos banheiros, varanda com cortina europeia e área de lazer com piscina, espaço gourmet coberto e churrasqueira. A caixa d\'água de 10.000 litros garante tranquilidade no abastecimento.',
     'Em área tranquila e de fácil acesso, é uma excelente opção para morar ou investir em uma das cidades mais valorizadas do Brejo Paraibano.',
   ],
