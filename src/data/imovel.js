@@ -187,13 +187,13 @@ export const imovel = {
   // basta atualizar as datas.
   plantao: {
     ativo: true,
-    ate: '2026-08-16', // último dia do plantão (formato AAAA-MM-DD)
-    titulo: 'Corretor em plantão em Bananeiras até domingo',
+    ate: '2026-08-29', // último dia do plantão (formato AAAA-MM-DD)
+    titulo: 'Corretor em plantão em Bananeiras até amanhã',
     texto:
-      'Rômulo está na cidade e pode mostrar o apartamento pessoalmente. Agende seu horário.',
+      'Rômulo está na cidade só até amanhã e pode mostrar o apartamento pessoalmente. Agende ainda hoje.',
     // Mensagem específica deste aviso (ajuda a identificar de onde veio o contato)
     mensagem:
-      'Olá! Vi que o corretor está em plantão em Bananeiras. Posso agendar uma visita ao apartamento?',
+      'Olá! Vi que o corretor está em plantão em Bananeiras até amanhã. Posso agendar uma visita ao apartamento?',
   },
 
   // ---- WHATSAPP ----
